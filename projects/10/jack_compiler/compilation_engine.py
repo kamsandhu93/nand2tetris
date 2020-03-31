@@ -74,11 +74,9 @@ class CompilationEngine:
         # ClassVarDec 0 to many
         while self._tokenizer.keyword in [Constants.STATIC, Constants.FIELD]:
             self._compile_class_var_dec()
-
         # SubroutineDec 0 to many
         while self._tokenizer.keyword in [Constants.CONSTRUCTOR, Constants.FUNCTION, Constants.METHOD]:
             self._compile_subroutine_dec()
-
         self._compile_specific_symbol('}')
 
     @_add_xml_tags(Constants.CLASSVARDEC)
@@ -86,15 +84,11 @@ class CompilationEngine:
     def _compile_class_var_dec(self) -> None:
         self._compile_keyword([Constants.STATIC, Constants.FIELD])
         self._compile_type()
-        self._compile_var_name()
+        self._compile_identifier()
         # comma separated list of varnames
         while self._tokenizer.symbol == ',':
-            self._add_value_to_output_list(self._tokenizer.symbol, self._tokenizer.token_type)
-            self._tokenizer.advance()
-
-            # varName
-            self._compile_var_name()
-
+            self._compile_specific_symbol(',')
+            self._compile_identifier()
         self._compile_specific_symbol(';')
 
     @_add_xml_tags(Constants.SUBROUTINEDEC)
@@ -116,13 +110,12 @@ class CompilationEngine:
             return
 
         self._compile_type()
-        self._compile_var_name()
+        self._compile_identifier()
         # comma separated list of type, varnames
         while self._tokenizer.symbol == ',':
-            self._add_value_to_output_list(self._tokenizer.symbol, self._tokenizer.token_type)
-            self._tokenizer.advance()
+            self._compile_specific_symbol(',')
             self._compile_type()
-            self._compile_var_name()
+            self._compile_identifier()
 
     @_add_xml_tags(Constants.SUBROUTINEBODY)
     @_set_current_grammar_element(Constants.SUBROUTINEBODY)
@@ -139,14 +132,11 @@ class CompilationEngine:
     def _compile_var_dec(self) -> None:
         self._compile_keyword([Constants.VAR])
         self._compile_type()
-        # varname comma separated list
-        self._compile_var_name()
+        self._compile_identifier()
         # comma separated list of varnames
         while self._tokenizer.symbol == ',':
-            self._add_value_to_output_list(self._tokenizer.symbol, self._tokenizer.token_type)
-            self._tokenizer.advance()
-            # varName
-            self._compile_var_name()
+            self._compile_specific_symbol(',')
+            self._compile_identifier()
         self._compile_specific_symbol(';')
 
     @_add_xml_tags(Constants.STATEMENTS)
@@ -185,7 +175,7 @@ class CompilationEngine:
     @_set_current_grammar_element(Constants.LET_STATEMENT)
     def _compile_let_statement(self) -> None:
         self._compile_keyword([Constants.LET])
-        self._compile_var_name()
+        self._compile_identifier()
         # Optional [expression]
         if self._tokenizer.symbol == '[':
             self._compile_specific_symbol('[')
@@ -238,17 +228,48 @@ class CompilationEngine:
     @_set_current_grammar_element(Constants.EXPRESSION)
     def _compile_expression(self) -> None:
         self._compile_term()
-        if self._tokenizer.symbol in ['+', '-']:  # TODO finish adding ops
+        if self._tokenizer.symbol in ['+', '-', '*', '/', '&', '|', '<', '>', '=']:
             self._compile_specific_symbol(self._tokenizer.symbol)
             self._compile_term()
 
     @_add_xml_tags(Constants.TERM)
     @_set_current_grammar_element(Constants.TERM)
     def _compile_term(self) -> None:
-        self._compile_var_name()
+        if self._tokenizer.token_type == Constants.INTVAL:
+            self._compile_intval()
+        elif self._tokenizer.token_type == Constants.STRINGVAL:
+            self._compile_strval()
+        elif self._tokenizer.token_type == Constants.KEYWORD:
+            self._compile_keyword([Constants.TRUE, Constants.FALSE, Constants.NULL, Constants.THIS])
+        elif self._tokenizer.token_type == Constants.SYMBOL:
+            if self._tokenizer.symbol in ['-', '~']:
+                self._compile_specific_symbol(self._tokenizer.symbol)
+            elif self._tokenizer.symbol == '(':
+                self._compile_specific_symbol('(')
+                self._compile_expression()
+                self._compile_specific_symbol(')')
+            else:
+                raise CompilationError(f'Term only accepts (, ~ and - {Constants.SYMBOL}s, given: '
+                                       f'{self._tokenizer.symbol}')
+        elif self._tokenizer.token_type == Constants.IDENTIFIER:
+            self._compile_identifier()
+            if self._tokenizer.symbol == '.':
+                self._compile_specific_symbol('.')
+                self._compile_identifier()
+                self._compile_specific_symbol('(')
+                self._compile_expression_list()
+                self._compile_specific_symbol(')')
+            elif self._tokenizer.symbol == '(':
+                self._compile_specific_symbol('(')
+                self._compile_expression_list()
+                self._compile_specific_symbol(')')
+            elif self._tokenizer.symbol == '[':
+                self._compile_specific_symbol('[')
+                self._compile_expression()
+                self._compile_specific_symbol(']')
 
     @_set_current_grammar_element(Constants.SUBROUTINECALL)
-    def _compile_subroutine_call(self):
+    def _compile_subroutine_call(self) -> None:
         self._compile_identifier()
         if self._tokenizer.symbol == '.':
             self._compile_specific_symbol('.')
@@ -256,13 +277,6 @@ class CompilationEngine:
         self._compile_specific_symbol('(')
         self._compile_expression_list()
         self._compile_specific_symbol(')')
-
-    def _compile_var_name(self) -> None:
-        if self._tokenizer.token_type != Constants.IDENTIFIER:
-            raise CompilationError(f'{self._current_grammar_element} varName must be {Constants.IDENTIFIER}, given: '
-                                   f'{self._tokenizer.token_type}')
-        self._add_value_to_output_list(self._tokenizer.identifier, self._tokenizer.token_type)
-        self._tokenizer.advance()
 
     def _compile_type(self, extra_keywords=None) -> None:
         keywords = [Constants.CHAR, Constants.BOOlEAN, Constants.INT]
@@ -274,11 +288,9 @@ class CompilationEngine:
                 raise CompilationError(
                     f'{self._current_grammar_element} type can only be {", ".join(keywords)} keywords, given keyword: '
                     f'{self._tokenizer.keyword}')
-            self._add_value_to_output_list(self._tokenizer.keyword, self._tokenizer.token_type)
-            self._tokenizer.advance()
+            self._compile_keyword(keywords)
         elif self._tokenizer.token_type == Constants.IDENTIFIER:
-            self._add_value_to_output_list(self._tokenizer.identifier, self._tokenizer.token_type)
-            self._tokenizer.advance()
+            self._compile_identifier()
         else:
             raise CompilationError(
                 f'{self._current_grammar_element} type must be {Constants.IDENTIFIER} or {Constants.KEYWORD}, given: '
@@ -293,7 +305,7 @@ class CompilationEngine:
 
     def _compile_keyword(self,  accepted_keywords: List) -> None:
         if self._tokenizer.token_type != Constants.KEYWORD:
-            raise CompilationError(f'{self._current_grammar_element} expected {Constants.KEYWORD}, given token type '
+            raise CompilationError(f'{self._current_grammar_element} expected a {Constants.KEYWORD}, given token type '
                                    f'{self._tokenizer.token_type}')
 
         if self._tokenizer.keyword not in accepted_keywords:
@@ -308,4 +320,18 @@ class CompilationEngine:
             raise CompilationError(f'{self._current_grammar_element} expected an identifier, given: '
                                    f'{self._tokenizer.token_type}')
         self._add_value_to_output_list(self._tokenizer.identifier, self._tokenizer.token_type)
+        self._tokenizer.advance()
+
+    def _compile_intval(self) -> None:
+        if self._tokenizer.token_type != Constants.IDENTIFIER:
+            raise CompilationError(f'{self._current_grammar_element} expected an intVal, given: '
+                                   f'{self._tokenizer.token_type}')
+        self._add_value_to_output_list(self._tokenizer.int_val, self._tokenizer.token_type)
+        self._tokenizer.advance()
+
+    def _compile_strval(self) -> None:
+        if self._tokenizer.token_type != Constants.IDENTIFIER:
+            raise CompilationError(f'{self._current_grammar_element} expected a strVal, given: '
+                                   f'{self._tokenizer.token_type}')
+        self._add_value_to_output_list(self._tokenizer.string_val, self._tokenizer.token_type)
         self._tokenizer.advance()

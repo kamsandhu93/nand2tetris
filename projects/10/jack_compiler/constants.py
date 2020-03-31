@@ -41,3 +41,8 @@ class Constants:
     DO_STATEMENT = 'doStatement'
     WHILE_STATEMENT = 'whileStatement'
     RETURN_STATEMENT = 'returnStatement'
+
+    TRUE = 'true'
+    FALSE = 'false'
+    NULL = 'null'
+    THIS = 'this'
