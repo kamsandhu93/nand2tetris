@@ -1,0 +1,149 @@
+// push constant 0    
+@0
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+// pop local 0         // initializes sum = 0
+@1
+D=M
+@0
+D=D+A
+@13
+M=D
+@0
+A=M-1
+D=M
+@13
+A=M
+M=D
+@0
+M=M-1
+// label LOOP_START
+(LOOP_START)
+// push argument 0    
+@2
+D=M
+@0
+D=D+A
+A=D
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// push local 0
+@1
+D=M
+@0
+D=D+A
+A=D
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// add
+@0
+A=M-1
+D=M
+@0
+A=M-1
+A=A-1
+M=D+M
+@0
+M=M-1
+// pop local 0	        // sum = sum + counter
+@1
+D=M
+@0
+D=D+A
+@13
+M=D
+@0
+A=M-1
+D=M
+@13
+A=M
+M=D
+@0
+M=M-1
+// push argument 0
+@2
+D=M
+@0
+D=D+A
+A=D
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// push constant 1
+@1
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+// sub
+@0
+A=M-1
+D=M
+@0
+A=M-1
+A=A-1
+M=M-D
+@0
+M=M-1
+// pop argument 0      // counter--
+@2
+D=M
+@0
+D=D+A
+@13
+M=D
+@0
+A=M-1
+D=M
+@13
+A=M
+M=D
+@0
+M=M-1
+// push argument 0
+@2
+D=M
+@0
+D=D+A
+A=D
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// if-goto LOOP_START  // If counter > 0, goto LOOP_START
+@0
+A=M-1
+D=M
+@LOOP_START
+D;JGT
+// push local 0
+@1
+D=M
+@0
+D=D+A
+A=D
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
