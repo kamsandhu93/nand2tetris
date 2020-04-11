@@ -27,6 +27,6 @@ class JackAnalyser:
 
 
 if __name__ == '__main__':
-    path = '/Users/kamsandhu/Documents/Code/prjoects_non_git/nand2tetris/projects/10/ExpressionLessSquare/SquareGame.jack'
+    path = '/Users/kamsandhu/Documents/Code/prjoects_non_git/nand2tetris/projects/10/Square/SquareGame.jack'
     out_path = 'output/test.xml'
     JackAnalyser.run(path, out_path)

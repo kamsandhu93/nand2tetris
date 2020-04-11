@@ -244,6 +244,7 @@ class CompilationEngine:
         elif self._tokenizer.token_type == Constants.SYMBOL:
             if self._tokenizer.symbol in ['-', '~']:
                 self._compile_specific_symbol(self._tokenizer.symbol)
+                self._compile_term()
             elif self._tokenizer.symbol == '(':
                 self._compile_specific_symbol('(')
                 self._compile_expression()
@@ -318,19 +319,19 @@ class CompilationEngine:
     def _compile_identifier(self) -> None:
         if self._tokenizer.token_type != Constants.IDENTIFIER:
             raise CompilationError(f'{self._current_grammar_element} expected an identifier, given: '
-                                   f'{self._tokenizer.token_type}')
+                                   f'{self._tokenizer.token_type} {self._tokenizer.token}')
         self._add_value_to_output_list(self._tokenizer.identifier, self._tokenizer.token_type)
         self._tokenizer.advance()
 
     def _compile_intval(self) -> None:
-        if self._tokenizer.token_type != Constants.IDENTIFIER:
+        if self._tokenizer.token_type != Constants.INTVAL:
             raise CompilationError(f'{self._current_grammar_element} expected an intVal, given: '
                                    f'{self._tokenizer.token_type}')
         self._add_value_to_output_list(self._tokenizer.int_val, self._tokenizer.token_type)
         self._tokenizer.advance()
 
     def _compile_strval(self) -> None:
-        if self._tokenizer.token_type != Constants.IDENTIFIER:
+        if self._tokenizer.token_type != Constants.STRINGVAL:
             raise CompilationError(f'{self._current_grammar_element} expected a strVal, given: '
                                    f'{self._tokenizer.token_type}')
         self._add_value_to_output_list(self._tokenizer.string_val, self._tokenizer.token_type)
