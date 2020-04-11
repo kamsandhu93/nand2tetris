@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d09fb036-7ac1-4d7a-b96c-85d9ab975d87" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/projects/11/jack_compiler/symbol_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projects/11/jack_compiler/vm_writter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/nand2tetris.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nand2tetris.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/10/jack_compiler/compilation_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/10/jack_compiler/compilation_engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/10/jack_compiler/jack_analyser.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/10/jack_compiler/jack_analyser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/10/jack_compiler/output/test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/10/jack_compiler/output/test.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/10/jack_compiler/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/10/jack_compiler/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/11/jack_compiler/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/11/jack_compiler/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,21 +43,22 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/projects/08" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/projects/11" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/projects/11" />
+      <recent name="$PROJECT_DIR$/projects/08" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/projects/10/jack_compiler/output" />
       <recent name="$PROJECT_DIR$/projects/10/jack_compiler" />
       <recent name="$PROJECT_DIR$/projects/10" />
       <recent name="$PROJECT_DIR$/projects/08/ProgramFlow/BasicLoop" />
       <recent name="$PROJECT_DIR$/projects/07/MemoryAccess/StaticTest" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/projects/08" />
     </key>
   </component>
   <component name="RunManager" selected="Python.jack_analyser">
@@ -197,7 +200,7 @@
       <workItem from="1585160963321" duration="165000" />
       <workItem from="1585161247170" duration="5198000" />
       <workItem from="1585427630012" duration="44446000" />
-      <workItem from="1586532640237" duration="470000" />
+      <workItem from="1586532640237" duration="5013000" />
     </task>
     <servers />
   </component>
@@ -281,10 +284,11 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="518" y="283" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585678664042" />
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1585510263014">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="-1295" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1586603925247">
+      <screen x="-1920" y="0" width="1920" height="1080" />
     </state>
     <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585510263014" />
+    <state x="-1295" y="241" width="670" height="676" key="search.everywhere.popup/0.23.1920.1057/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1586603925247" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

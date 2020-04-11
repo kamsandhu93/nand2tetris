@@ -24,6 +24,7 @@ class Constants:
     METHOD = 'method'
     VOID = 'void'
     VAR = 'var'
+    ARG = 'arg'
 
     INT = 'int'
     CHAR = 'char'
