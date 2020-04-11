@@ -1,5 +1,21 @@
 class VMWriter:
 
+    OP_CALL_MAP = {
+        '*': 'Math.multiply',
+        '/': 'Math.divide'
+    }
+
+    OP_MAP = {
+        '+': 'add',
+        '-': 'sub',
+        '=': 'eq',
+        '>': 'gt',
+        '<': 'lt',
+        '&': 'and',
+        '|': 'or',
+        '~': 'not'
+    }
+
     def __init__(self, output_file: str) -> None:
         self._file_name = output_file
         self._output_list = []
@@ -11,18 +27,21 @@ class VMWriter:
         self._output_list.append(f'pop {segment} {index}')
 
     def write_arithmetic(self, command: str) -> None:
-        if command not in []:
-            raise Exception(f'Invalid arithmetic command: {command}')
-        self._output_list.append(command)
+        try:
+            command = self.OP_MAP[command]
+            self._output_list.append(command)
+        except KeyError:
+            call = self.OP_CALL_MAP[command]
+            self.write_call(call, 2)
 
     def write_label(self, label: str) -> None:
         self._output_list.append(f'label {label}')
 
     def write_go_to(self, label: str) -> None:
-        self._output_list.append(f'if-goto {label}')
+        self._output_list.append(f'goto {label}')
 
     def write_if(self, label: str) -> None:
-        self._output_list.append(f'if {label}')
+        self._output_list.append(f'if go-to {label}')
 
     def write_call(self, name: str, n_args: int) -> None:
         self._output_list.append(f'call {name} {n_args}')
@@ -35,5 +54,4 @@ class VMWriter:
 
     def close(self):
         with open(self._file_name, 'w') as f:
-            f.writelines(self._output_list)
-            
+            f.writelines([line + '\n' for line in self._output_list])

@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d09fb036-7ac1-4d7a-b96c-85d9ab975d87" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/projects/11/jack_compiler/symbol_table.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/11/jack_compiler/vm_writter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/nand2tetris.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nand2tetris.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/10/jack_compiler/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/10/jack_compiler/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/11/jack_compiler/compilation_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/11/jack_compiler/compilation_engine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/11/jack_compiler/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/11/jack_compiler/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/11/jack_compiler/jack_analyser.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/11/jack_compiler/jack_analyser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/11/jack_compiler/symbol_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/11/jack_compiler/symbol_table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/11/jack_compiler/vm_writter.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/11/jack_compiler/vm_writter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +61,7 @@
       <recent name="$PROJECT_DIR$/projects/07/MemoryAccess/StaticTest" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.jack_analyser">
+  <component name="RunManager" selected="Python.jack_analyser (1)">
     <configuration name="compilation_engine" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="nand2tetris" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -76,6 +76,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/projects/10/jack_compiler/compilation_engine.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="jack_analyser (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="nand2tetris" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/projects/11/jack_compiler" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/projects/11/jack_compiler/jack_analyser.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -150,35 +172,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="vm_translator" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="nand2tetris" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/projects/07" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/projects/07/vm_translator.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.jack_analyser (1)" />
         <item itemvalue="Python.jack_analyser" />
         <item itemvalue="Python.jack_tokeniser" />
         <item itemvalue="Python.compilation_engine" />
         <item itemvalue="Python.vm_translator (1)" />
-        <item itemvalue="Python.vm_translator" />
       </list>
     </recent_temporary>
   </component>
@@ -200,7 +200,7 @@
       <workItem from="1585160963321" duration="165000" />
       <workItem from="1585161247170" duration="5198000" />
       <workItem from="1585427630012" duration="44446000" />
-      <workItem from="1586532640237" duration="5013000" />
+      <workItem from="1586532640237" duration="31235000" />
     </task>
     <servers />
   </component>
@@ -212,61 +212,70 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="648" y="275" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585160974213" />
-    <state width="1398" height="303" key="GridCell.Tab.0.bottom" timestamp="1585762687889">
+    <state x="445" y="210" key="#xdebugger.XInspectDialog" timestamp="1586639395988">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1585762687889" />
+    <state x="445" y="210" key="#xdebugger.XInspectDialog/0.0.1440.900@0.0.1440.900" timestamp="1586639395988" />
+    <state x="954" y="247" key="#xdebugger.evaluate" timestamp="1586641832709">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="954" y="247" key="#xdebugger.evaluate/0.0.1440.900@0.0.1440.900" timestamp="1586641832709" />
+    <state width="1398" height="273" key="GridCell.Tab.0.bottom" timestamp="1586641948956">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="273" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1586641948956" />
     <state width="1878" height="371" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585745337029" />
     <state width="1878" height="458" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1585588900420" />
     <state width="1878" height="235" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1585427527657" />
-    <state width="1398" height="303" key="GridCell.Tab.0.center" timestamp="1585762687888">
+    <state width="1398" height="273" key="GridCell.Tab.0.center" timestamp="1586641948955">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1585762687888" />
+    <state width="1398" height="273" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1586641948955" />
     <state width="1878" height="371" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585745337028" />
     <state width="1878" height="458" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1585588900419" />
     <state width="1878" height="235" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1585427527656" />
-    <state width="1398" height="303" key="GridCell.Tab.0.left" timestamp="1585762687888">
+    <state width="1398" height="273" key="GridCell.Tab.0.left" timestamp="1586641948954">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1585762687888" />
+    <state width="1398" height="273" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1586641948954" />
     <state width="1878" height="371" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585745337027" />
     <state width="1878" height="458" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1585588900419" />
     <state width="1878" height="235" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1585427527655" />
-    <state width="1398" height="303" key="GridCell.Tab.0.right" timestamp="1585762687889">
+    <state width="1398" height="273" key="GridCell.Tab.0.right" timestamp="1586641948955">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1585762687889" />
+    <state width="1398" height="273" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1586641948955" />
     <state width="1878" height="371" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585745337029" />
     <state width="1878" height="458" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1585588900419" />
     <state width="1878" height="235" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1585427527657" />
-    <state width="1398" height="303" key="GridCell.Tab.1.bottom" timestamp="1585762687891">
+    <state width="1398" height="283" key="GridCell.Tab.1.bottom" timestamp="1586641833568">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1585762687891" />
+    <state width="1398" height="283" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1586641833568" />
     <state width="1878" height="375" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585679052287" />
-    <state width="1398" height="303" key="GridCell.Tab.1.center" timestamp="1585762687890">
+    <state width="1398" height="283" key="GridCell.Tab.1.center" timestamp="1586641833567">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1585762687890" />
+    <state width="1398" height="283" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1586641833567" />
     <state width="1878" height="375" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585679052286" />
-    <state width="1398" height="303" key="GridCell.Tab.1.left" timestamp="1585762687889">
+    <state width="1398" height="283" key="GridCell.Tab.1.left" timestamp="1586641833566">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1585762687889" />
+    <state width="1398" height="283" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1586641833566" />
     <state width="1878" height="375" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585679052286" />
-    <state width="1398" height="303" key="GridCell.Tab.1.right" timestamp="1585762687890">
+    <state width="1398" height="283" key="GridCell.Tab.1.right" timestamp="1586641833567">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1585762687890" />
+    <state width="1398" height="283" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1586641833567" />
     <state width="1878" height="375" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585679052287" />
     <state x="232" y="125" key="SettingsEditor" timestamp="1585686706165">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="232" y="125" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1585686706165" />
-    <state width="960" height="552" key="XDebugger.FullValuePopup" timestamp="1585678754714">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="720" height="460" key="XDebugger.FullValuePopup" timestamp="1586639458891">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="720" height="460" key="XDebugger.FullValuePopup/0.0.1440.900@0.0.1440.900" timestamp="1586639458891" />
     <state width="960" height="552" key="XDebugger.FullValuePopup/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585678754714" />
     <state width="960" height="552" key="XDebugger.FullValuePopup/0.23.1920.1057/1920.23.1680.1027@0.23.1920.1057" timestamp="1585516098704" />
     <state x="490" y="322" key="com.intellij.ide.util.TipDialog" timestamp="1586532648444">
@@ -284,9 +293,11 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="518" y="283" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585678664042" />
-    <state x="-1295" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1586603925247">
-      <screen x="-1920" y="0" width="1920" height="1080" />
+    <state x="469" y="201" width="670" height="564" key="search.everywhere.popup" timestamp="1586623809555">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="469" y="201" width="670" height="564" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1586623809555" />
+    <state x="-1295" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1586604772609" />
     <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080/1920.0.1680.1050@0.0.1920.1080" timestamp="1585510263014" />
     <state x="-1295" y="241" width="670" height="676" key="search.everywhere.popup/0.23.1920.1057/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1586603925247" />
   </component>
@@ -303,12 +314,18 @@
           <line>194</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/projects/11/jack_compiler/compilation_engine.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/nand2tetris$jack_analyser.coverage" NAME="jack_analyser Coverage Results" MODIFIED="1585745337022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/10/jack_compiler" />
+    <SUITE FILE_PATH="coverage/nand2tetris$jack_analyser.coverage" NAME="jack_analyser Coverage Results" MODIFIED="1586636918340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/10/jack_compiler" />
     <SUITE FILE_PATH="coverage/nand2tetris$jakc_analyser.coverage" NAME="jakc_analyser Coverage Results" MODIFIED="1585672332769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/10" />
+    <SUITE FILE_PATH="coverage/nand2tetris$jack_analyser__1_.coverage" NAME="jack_analyser (1) Coverage Results" MODIFIED="1586641948947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/11/jack_compiler" />
     <SUITE FILE_PATH="coverage/nand2tetris$jack_tokeniser.coverage" NAME="jack_tokeniser Coverage Results" MODIFIED="1585676548652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/10/jack_compiler" />
     <SUITE FILE_PATH="coverage/nand2tetris$vm_translator__1_.coverage" NAME="vm_translator (1) Coverage Results" MODIFIED="1585248500231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/08" />
   </component>

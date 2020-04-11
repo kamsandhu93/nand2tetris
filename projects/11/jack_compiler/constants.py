@@ -24,7 +24,7 @@ class Constants:
     METHOD = 'method'
     VOID = 'void'
     VAR = 'var'
-    ARG = 'arg'
+
 
     INT = 'int'
     CHAR = 'char'
@@ -47,3 +47,10 @@ class Constants:
     FALSE = 'false'
     NULL = 'null'
     THIS = 'this'
+    THAT = 'that'
+
+    CONSTANT = 'constant'
+    POINTER = 'pointer'
+    ARGUMENT = 'argument'
+    LOCAL ='local'
+    TEMP = 'temp'
