@@ -75,14 +75,21 @@ class CompilationEngine:
         self._symbol_table.start_subroutine()
 
         subroutine_type = self._take_keyword([Constants.CONSTRUCTOR, Constants.FUNCTION, Constants.METHOD])
-        type = self._take_type(extra_keywords=[Constants.VOID])
+        self._take_type(extra_keywords=[Constants.VOID])
         name = self._take_identifier()
+
+        if subroutine_type == Constants.METHOD:
+            # init this to point at obj (which is first arg)
+            self._symbol_table.define('this', self._class_name, Constants.ARGUMENT)
 
         self._take_symbol('(')
         self._compile_parameter_list()
         self._take_symbol(')')
 
         self._take_symbol('{')
+
+
+
         # varDecs
         while self._tokenizer.keyword == Constants.VAR:
             self._compile_var_dec()
@@ -96,17 +103,11 @@ class CompilationEngine:
             self._vm_writer.write_pop(Constants.POINTER, 0)
         elif subroutine_type == Constants.METHOD:
             # init this to point at obj (which is first arg)
-            self._symbol_table.define('this', self._class_name, Constants.ARGUMENT)
             self._vm_writer.write_push(Constants.ARGUMENT, 0)
             self._vm_writer.write_pop(Constants.POINTER, 0)
 
         self._compile_statements()
         self._take_symbol('}')
-
-        if subroutine_type == Constants.CONSTRUCTOR:
-            # return the memory adr of the object
-            self._vm_writer.write_push(Constants.POINTER, 0)
-            self._vm_writer.write_return()
 
 
     @_set_current_grammar_element(Constants.PARAMETER_LIST)
@@ -160,8 +161,8 @@ class CompilationEngine:
         self._take_symbol(')')
 
         self._vm_writer.write_arithmetic('~')
-        label_1 = self._get_label(Constants.IF)
-        label_2 = self._get_label(Constants.IF)
+        label_1 = self._get_label(f'{Constants.IF}-START')
+        label_2 = self._get_label(f'{Constants.IF}-END')
         self._vm_writer.write_if(label_1)
 
         self._take_symbol('{')
@@ -288,7 +289,7 @@ class CompilationEngine:
         elif self._tokenizer.token_type == Constants.KEYWORD:
             keyword = self._take_keyword([Constants.TRUE, Constants.FALSE, Constants.NULL, Constants.THIS])
             if keyword == Constants.TRUE:
-                self._vm_writer.write_push(Constants.CONSTANT, 1)
+                self._vm_writer.write_push(Constants.CONSTANT, 0)
                 self._vm_writer.write_arithmetic('~')
             elif keyword in [Constants.FALSE, Constants.NULL]:
                 self._vm_writer.write_push(Constants.CONSTANT, 0)
@@ -297,6 +298,7 @@ class CompilationEngine:
         elif self._tokenizer.token_type == Constants.SYMBOL:
             if self._tokenizer.symbol in ['-', '~']:
                 symbol = self._tokenizer.symbol
+                symbol = '--' if symbol == '-' else symbol
                 self._take_symbol(self._tokenizer.symbol)
                 self._compile_term()
                 self._vm_writer.write_arithmetic(symbol)
@@ -327,28 +329,59 @@ class CompilationEngine:
         if name is None:
             name = self._take_identifier()
 
-        pushed_obj = True
+# var.call
+# Class.call
+
+        is_method_call = True
         if self._tokenizer.symbol == '.':
             self._take_symbol('.')
-            var_name = name
-            name = name + '.' + self._take_identifier()
+            subroutine_name = self._take_identifier()
             self._take_symbol('(')
             try:
-                self._write_var('push', var_name) #  push object adr
-            except SymbolNotFound: # its not a var.call, but a library call
-                pushed_obj = False
+                type = self._symbol_table.type_of(name) # method call on obj
+                self._write_var('push', name)  # push object adr
+                call_name = f'{type}.{subroutine_name}'
+            except SymbolNotFound: #  function call on class
+                is_method_call = False
+                call_name = f'{name}.{subroutine_name}'
 
         else:
             self._take_symbol('(')
-            name = f'{self._class_name}.{name}'
+            call_name = f'{self._class_name}.{name}'
             self._vm_writer.write_push(Constants.POINTER, 0)
 
         n_args = self._compile_expression_list()
         self._take_symbol(')')
 
-        n_args = n_args + 1 if pushed_obj else n_args
+        n_args = n_args + 1 if is_method_call else n_args
 
-        self._vm_writer.write_call(name, n_args)
+        self._vm_writer.write_call(call_name, n_args)
+
+
+        #
+        # pushed_obj = True
+        # if self._tokenizer.symbol == '.':
+        #     self._take_symbol('.')
+        #     var_name = name
+        #     self._symbol_table.type_of()
+        #     name = name + '.' + self._take_identifier()
+        #     self._take_symbol('(')
+        #     try:
+        #         self._write_var('push', var_name) #  push object adr
+        #     except SymbolNotFound: # its not a var.call, but a library call
+        #         pushed_obj = False
+        #
+        # else:
+        #     self._take_symbol('(')
+        #     name = f'{self._class_name}.{name}'
+        #     self._vm_writer.write_push(Constants.POINTER, 0)
+        #
+        # n_args = self._compile_expression_list()
+        # self._take_symbol(')')
+        #
+        # n_args = n_args + 1 if pushed_obj else n_args
+        #
+        # self._vm_writer.write_call(name, n_args)
 
     def _take_type(self, extra_keywords=None) -> str:
         keywords = [Constants.CHAR, Constants.BOOlEAN, Constants.INT]

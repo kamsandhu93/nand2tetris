@@ -13,7 +13,8 @@ class VMWriter:
         '<': 'lt',
         '&': 'and',
         '|': 'or',
-        '~': 'not'
+        '~': 'not',
+        '--': 'neg'
     }
 
     def __init__(self, output_file: str) -> None:
@@ -41,7 +42,7 @@ class VMWriter:
         self._output_list.append(f'goto {label}')
 
     def write_if(self, label: str) -> None:
-        self._output_list.append(f'if go-to {label}')
+        self._output_list.append(f'if-goto {label}')
 
     def write_call(self, name: str, n_args: int) -> None:
         self._output_list.append(f'call {name} {n_args}')

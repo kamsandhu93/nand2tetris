@@ -52,7 +52,7 @@ class SymbolTable:
 
     def var_count(self, kind: str) -> int:
         index = self.index_map[kind]
-        return index
+        return index if index is not None else 0
 
     def _find_symbol(self, name: str) -> Symbol:
         try:
